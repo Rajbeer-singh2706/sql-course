@@ -11,6 +11,30 @@
 
 ---
 
+## Environment & Tooling (Finalized)
+
+| Component | Choice | Details |
+|---|---|---|
+| **Database** | Neon (cloud PostgreSQL) | Free tier, serverless PostgreSQL 16 |
+| **SQL Client** | Local machine | Connect via Neon connection string |
+| **Notebook format** | Jupyter `.ipynb` | One per day, delivered as a file |
+| **SQL magic** | `%sql` / `%%sql` | Via `ipython-sql` + `sqlalchemy` |
+| **Session docs** | `.pdf` | ReportLab, teal brand color `#1A7A6E` |
+
+### One-Time Local Setup
+```bash
+pip install jupyter notebook ipython-sql sqlalchemy psycopg2-binary
+```
+
+### Notebook Connection Block (top of every notebook)
+```python
+%load_ext sql
+%sql postgresql+psycopg2://USERNAME:PASSWORD@ep-xxxx.region.neon.tech/neondb?sslmode=require
+```
+> Replace with your actual Neon connection string from the Neon dashboard.
+
+---
+
 ## How to Use This File
 
 > **Each day is a separate chat session.** At the start of every new chat, paste this entire file so Claude has full course context. Then say: `"Let's do Day X"` and Claude will know exactly what to teach and what to deliver.
@@ -19,13 +43,75 @@
 
 ## What Claude Should Deliver Every Day
 
-For every single day, without being asked, Claude must produce:
+For every single day, without being asked, Claude must produce **all five** automatically:
 
-1. **Full lesson** — concept explanation → example SQL → hands-on exercise
-2. **1-hour session documentation (.pdf)** — structured as a video recording script with timed segments, talking points, code blocks, tables, and callout boxes
-3. **Video description** — 3 versions: YouTube (long/SEO), Short (Reels/Shorts), Course platform (Udemy style)
+1. **Full lesson** — concept explanation → example SQL → hands-on exercise (in chat)
+2. **Lesson notebook (`.ipynb`)** — complete, ready-to-run, using `%%sql` magic, with markdown explanations + all examples + exercise cell
+3. **Practice problems notebook (`.ipynb`)** — 9 problems of increasing difficulty (⭐ / ⭐⭐ / ⭐⭐⭐), covering all concepts taught from Day 1 up to and including the current day; each problem has a blank answer cell, a hint, and a solution in collapsible `<details>` blocks; uses realistic pipeline scenarios; includes two tables for variety
+4. **Session documentation (`.pdf`)** — structured as a video recording script with timed segments, talking points, code blocks, tables, and callout boxes
+5. **Video descriptions** — 3 versions: YouTube (long/SEO), Short (Reels/Shorts), Course platform (Udemy style)
 
-Do not wait to be asked for the doc or description. Deliver all three automatically.
+Do not wait to be asked. Deliver all five automatically every day.
+
+---
+
+## Practice Problems Notebook — Format Standard
+
+Every day's practice `.ipynb` must include:
+
+- **Cell 1 — Title & intro** (Markdown): Day number, "Practice Problems", concepts covered so far (cumulative from Day 1)
+- **Cell 2 — Setup** (Code): `%load_ext sql` + connection string placeholder
+- **Cell 3 — Create tables** (Code): Two tables using `%%sql` — the day's main table + one additional table for variety
+- **9 Problems** — each problem is a pair of cells:
+  - Markdown cell: problem number, difficulty (⭐/⭐⭐/⭐⭐⭐), scenario description, expected output hint
+  - Code cell: blank `%%sql` cell for the student's answer
+  - Markdown cell: collapsible `<details>` with hint, then solution
+- Problems must be cumulative — later problems combine multiple concepts from Day 1 through current day
+- Problem 9 is always a full pipeline-style query combining everything from the day
+- **Last cell — Summary table** (Markdown): problem number | concept practised | difficulty
+
+File naming: `day_XX_practice_problems.ipynb` (e.g. `day_02_practice_problems.ipynb`)
+
+
+
+Every day's `.ipynb` must include:
+
+- **Cell 1 — Title & intro** (Markdown): Day number, topic, what will be learned
+- **Cell 2 — Setup** (Code): `%load_ext sql` + `%sql <connection_string_placeholder>`
+- **Cell 3+ — Concept sections** (alternating Markdown + Code cells):
+  - Markdown explains the concept
+  - Code cell has the `%%sql` query with a comment header
+- **Second-to-last cell — Exercise** (Markdown + blank Code cell): the hands-on task with instructions
+- **Last cell — Summary** (Markdown): recap + what's next
+
+File naming: `day_XX_topic_name.ipynb` (e.g. `day_02_first_select.ipynb`)
+
+---
+
+## .pdf Session Document — Format Standard
+
+Every day's recording script doc must include:
+
+- Cover section with session info table (duration, level, goal, week)
+- "What you will learn" callout box
+- Session agenda table with timestamps
+- One page per segment with time tag, talking points, code blocks, tables
+- Hands-on exercise section with expected output and common errors table
+- Recap bullet list + Day N+1 preview with camera script
+- Appendix quick-reference card
+- Teal (`#1A7A6E`) as the primary brand color throughout
+
+File naming: `day_XX_topic_name_session.pdf` (e.g. `day_02_first_select_session.pdf`)
+
+---
+
+## Video Description — Format Standard
+
+Always provide exactly 3 versions per day:
+
+1. **YouTube** — 80–120 words, SEO-friendly, mentions day number, topics covered, skill level, and next day preview
+2. **Short** — 2–3 sentences max, punchy, for Reels / YouTube Shorts / intro card
+3. **Course platform** — 50–70 words, Udemy/Teachable style, outcome-focused
 
 ---
 
@@ -50,48 +136,49 @@ Do not wait to be asked for the doc or description. Deliver all three automatica
 - Install & connect via psql
 - *Exercise: Install PostgreSQL locally, connect and run `\l` and `\dt`*
 - *Deliverables: Lesson taught, .pdf session doc created, 3 video descriptions written*
+- *Note: Completed before Jupyter notebook format was adopted. No .ipynb for Day 1.*
 
 **Day 2 — Your first SELECT**
 - SELECT, FROM, semicolons
 - Selecting all columns with `*`
 - Aliasing columns with AS
 - *Exercise: Query a sample table, alias 3 columns*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 3 — Filtering rows**
 - WHERE clause basics
 - Comparison operators `=`, `>`, `<`, `!=`
 - NULL checks: `IS NULL` / `IS NOT NULL`
 - *Exercise: Filter orders placed after a date*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 4 — Logical operators**
 - AND, OR, NOT
 - IN and BETWEEN shortcuts
 - Operator precedence with parentheses
 - *Exercise: Find rows matching 2+ conditions*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 5 — Sorting & limiting**
 - ORDER BY ASC / DESC
 - LIMIT and OFFSET
 - Paginating results for pipelines
 - *Exercise: Get the top 10 rows by value*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 6 — String functions**
 - LOWER, UPPER, TRIM
 - CONCAT and `||`
 - LIKE and ILIKE pattern matching
 - *Exercise: Clean a messy name column*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 7 — Date & time basics**
 - DATE, TIMESTAMP types
 - NOW(), CURRENT_DATE
 - Date arithmetic with intervals
 - *Exercise: Find events from the last 30 days*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 ---
 
@@ -102,49 +189,49 @@ Do not wait to be asked for the doc or description. Deliver all three automatica
 - COUNT(*) vs COUNT(col)
 - Ignoring NULLs in aggregates
 - *Exercise: Count rows and sum a revenue column*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 9 — GROUP BY**
 - Grouping rows into buckets
 - Combining GROUP BY with aggregates
 - Multiple grouping columns
 - *Exercise: Revenue by product category*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 10 — HAVING clause**
 - Filtering after aggregation
 - HAVING vs WHERE — key difference
 - Common pipeline use cases
 - *Exercise: Find categories with > 100 orders*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 11 — CASE expressions**
 - CASE WHEN THEN ELSE END
 - Using CASE inside aggregates
 - Pivot-style transformations
 - *Exercise: Classify orders by size bucket*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 12 — DISTINCT & UNION**
 - SELECT DISTINCT usage
 - UNION vs UNION ALL
 - Deduplication strategies
 - *Exercise: Merge two source tables cleanly*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 13 — Subqueries**
 - Subquery in WHERE
 - Subquery in FROM (inline view)
 - Correlated subqueries intro
 - *Exercise: Find rows above the average value*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 14 — CTEs (WITH clause)**
 - Common Table Expressions syntax
 - Chaining multiple CTEs
 - Why CTEs improve readability
 - *Exercise: Rewrite a subquery as a CTE*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 ---
 
@@ -155,49 +242,49 @@ Do not wait to be asked for the doc or description. Deliver all three automatica
 - ON clause and key matching
 - Joining on multiple columns
 - *Exercise: Join orders to customers table*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 16 — LEFT & RIGHT JOIN**
 - Preserving unmatched rows
 - NULLs from outer joins
 - Choosing the right join type
 - *Exercise: Find customers with no orders*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 17 — FULL OUTER JOIN**
 - When both sides can be missing
 - Union of both outer joins
 - Data reconciliation patterns
 - *Exercise: Reconcile two pipeline sources*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 18 — Self JOINs**
 - Joining a table to itself
 - Aliasing for clarity
 - Hierarchy and comparison queries
 - *Exercise: Find employees and their managers*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 19 — Multi-table JOINs**
 - Joining 3+ tables in sequence
 - Join order and performance
 - Naming collisions — using aliases
 - *Exercise: Build a sales summary across 3 tables*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 20 — JOIN with aggregates**
 - Aggregating after joining
 - GROUP BY on joined columns
 - Common reporting patterns
 - *Exercise: Revenue per customer per month*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 21 — Window functions intro**
 - OVER() clause basics
 - ROW_NUMBER, RANK, DENSE_RANK
 - PARTITION BY and ORDER BY
 - *Exercise: Rank products within each category*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 ---
 
@@ -208,63 +295,63 @@ Do not wait to be asked for the doc or description. Deliver all three automatica
 - FIRST_VALUE, LAST_VALUE
 - Running totals with SUM OVER
 - *Exercise: Day-over-day change in revenue*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 23 — Writing data: INSERT**
 - INSERT INTO … VALUES
 - INSERT … SELECT pattern
 - ON CONFLICT (upserts)
 - *Exercise: Load rows from a staging table*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 24 — UPDATE & DELETE**
 - UPDATE with WHERE conditions
 - DELETE safely with WHERE
 - Soft deletes pattern
 - *Exercise: Correct a batch of bad records*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 25 — CREATE TABLE & types**
 - Common PostgreSQL data types
 - Constraints: NOT NULL, UNIQUE, DEFAULT
 - Serial / BIGSERIAL for IDs
 - *Exercise: Design a simple events table*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 26 — Indexes & performance**
 - Why indexes matter in pipelines
 - B-tree index creation
 - EXPLAIN ANALYZE basics
 - *Exercise: Add an index, compare query plans*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 27 — Transactions**
 - BEGIN, COMMIT, ROLLBACK
 - ACID properties explained
 - When to wrap pipeline steps in transactions
 - *Exercise: Run a safe multi-step load operation*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 28 — Views & materialized views**
 - CREATE VIEW for reusable queries
 - Materialized views for caching
 - REFRESH MATERIALIZED VIEW
 - *Exercise: Build a summary materialized view*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 29 — Schema design & capstone**
 - Normalization basics (1NF–3NF)
 - Star schema for analytics
 - Putting it all together
 - *Exercise: Design & query a mini data warehouse*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 **Day 30 — Pipeline patterns**
 - ELT vs ETL in PostgreSQL
 - Incremental loads with timestamps
 - Error handling & logging tables
 - *Exercise: Build a simple incremental pipeline*
-- *Deliver: Full lesson + .pdf recording script + 3 video descriptions*
+- *Deliver: Full lesson + `.ipynb` lesson notebook + `.ipynb` practice problems + `.pdf` recording script + 3 video descriptions*
 
 ---
 
@@ -280,31 +367,6 @@ When teaching any lesson in this course:
 
 ---
 
-## .pdf Session Document — Format Standard
-
-Every day's recording script doc must include:
-
-- Cover section with session info table (duration, level, goal, week)
-- "What you will learn" callout box
-- Session agenda table with timestamps
-- One page per segment with time tag, talking points, code blocks, tables
-- Hands-on exercise section with expected output and common errors table
-- Recap bullet list + Day N+1 preview with camera script
-- Appendix quick-reference card
-- Teal (`#1A7A6E`) as the primary brand color throughout
-
----
-
-## Video Description — Format Standard
-
-Always provide exactly 3 versions per day:
-
-1. **YouTube** — 80–120 words, SEO-friendly, mentions day number, topics covered, skill level, and next day preview
-2. **Short** — 2–3 sentences max, punchy, for Reels / YouTube Shorts / intro card
-3. **Course platform** — 50–70 words, Udemy/Teachable style, outcome-focused
-
----
-
 ## Quick Reference: Key PostgreSQL Concepts for Data Engineering
 
 | Concept | Why it matters for pipelines |
@@ -316,3 +378,22 @@ Always provide exactly 3 versions per day:
 | Materialized views | Pre-computed results for expensive queries |
 | EXPLAIN ANALYZE | Debug and optimize slow pipeline queries |
 | Incremental loads | Load only new/changed rows using timestamps |
+
+---
+
+## Folder Structure (local machine)
+
+```
+sql-course/
+├── notebooks/
+│   ├── day_02_first_select.ipynb
+│   ├── day_02_practice_problems.ipynb
+│   ├── day_03_filtering_rows.ipynb
+│   ├── day_03_practice_problems.ipynb
+│   └── ...
+├── session_docs/
+│   ├── day_02_first_select_session.pdf
+│   ├── day_03_filtering_rows_session.pdf
+│   └── ...
+└── sql_course_context.md   ← this file, paste into every new chat
+```
