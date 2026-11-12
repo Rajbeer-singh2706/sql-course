@@ -79,3 +79,9 @@ INSERT INTO order_items (order_id, product_id, quantity, unit_price) VALUES
 (1007, 105, 4,  150.00),
 (1008, 101, 1,  799.00),
 (1008, 104, 2,  120.00);
+
+
+--select * from order_items;
+-- select * from orders;
+-- select * from products;
+--select * from customers;
