@@ -41,8 +41,11 @@ Each day also includes learning objectives, a stretch goal for faster learners, 
 ### Phase 1: Foundations (Days 1-7)
 Learn what databases are and how to retrieve and filter data.
 
+
+
 | Day | Topic |
 |---|---|
+| 0 | Installation 
 | 1 | What databases are, tables/rows/columns, setting up |
 | 2 | `SELECT`, `FROM`, aliases, `DISTINCT` |
 | 3 | Filtering with `WHERE`, comparison operators, `AND`/`OR`/`NOT` |
@@ -120,3 +123,7 @@ The course uses **PostgreSQL** by default. SQLite works for the first phases if 
 - Try the stretch goal when you finish early.
 - Review the "common mistakes" note at the end of each lesson.
 - Keep your own notes of useful queries as you go.
+
+
+-- For one to one Dicussion or For Doubt Dicussion or Live Class 
+-- please email me on      : rajbeer.singh2706@gmail.com
