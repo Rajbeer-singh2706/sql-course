@@ -3,6 +3,15 @@
 Topics 
 -------
 * SELECT ... FROM 
+    SELECT 
+        <the columns you want>
+    FROM <the table they live in>;
+
+    select 
+        <the columns you want>
+    from <the table they live in>;
+
+##############
 * ALIAS
 * DISTINCT 
 
