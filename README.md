@@ -127,3 +127,9 @@ The course uses **PostgreSQL** by default. SQLite works for the first phases if 
 
 -- For one to one Dicussion or For Doubt Dicussion or Live Class 
 -- please email me on      : rajbeer.singh2706@gmail.com
+
+
+## 
+SHift + --
+SHift + Ctrl +
+FN +F11
