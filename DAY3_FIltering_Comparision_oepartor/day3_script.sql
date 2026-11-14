@@ -79,3 +79,8 @@ SELECT * from customers where city = 'Delhi' OR city = 'Mumbai';
 SELECT * from customers where not (city = 'Delhi' OR city = 'Mumbai');
 
 select * from customers where city <> 'Delhi' AND city <> 'Mumbai';
+
+
+
+WHERE category = 'Books' OR 
+   category = 'Home' AND price < 30

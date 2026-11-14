@@ -1,6 +1,9 @@
 
 ## TOPICS 
+-- SELECT ... FROM : DONE 
+
 -- FIlter --> WHERE
+
 -- Comparision Operators 
 -- Compare Numbers, text, dates with =, <>, <,>, <=,>=
 -- Logical : AND, OR , NOT 
@@ -11,5 +14,14 @@
 -- Order_items
 -- Product
 
--- ### COmparition Operator
+-- ### COmparision Operator = 
+-- = (Equal Operator )
+-- <
+-- >
+-- <= 
+-- >=
+-- <> or != 
+
+-- condition : variable operator value
+
 
