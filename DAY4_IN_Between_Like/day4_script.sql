@@ -51,16 +51,26 @@ SELECT
   name,signup_date
 FROM customers
 WHERE signup_date BETWEEN '2025-01-01' AND '2025-03-01';
-
+select * from orders WHERE order_date NOT BETWEEN  '2025-02-01' AND '2025-03-01';
 
 ------------ 3. LIKE -------------- 
+select * from customers where name = 'A%'; -- no error 
 SELECT name from customers WHERE name LIKE 'A%';
 SELECT name from customers WHERE name ILIKE 'A%';
-SELECT name from customers WHERE name LIKE '%a';
+select * from customers where name LIKE '%a';
+select * from customers where name LIKE '%A';
+select * from customers where name ILIKE '%A'; --ignore the case
+
 SELECT name from customers WHERE name LIKE '%an%';
 SELECT name from customers WHERE name LIKE '_a%';
 
 ------------ 4. NULL: a missing Value, unknown or missing -----------------
+select * from customers WHERE email NOT LIKE '%example.com';
+total => 8 
+Case 1 ==> like '%example.com'    => 7
+CASE 2 ==> not like '%example.com' => 0 
+WHy null record didnt appear 
+
 SELECT * FROM customers WHERE email = NULL; -- 0 Rows  Never Works 
 SELECT * FROM customers WHERE email IS NULL; -- customer 7
 SELECT * FROM customers WHERE email IS NOT NULL;-- everyone else
