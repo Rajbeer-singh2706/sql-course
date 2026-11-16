@@ -19,8 +19,14 @@
 * LIMIT and OFFSET 
 
 
--- TOTAL 8 REcords 
--- ASC 
+-- TOTAL 8 REcords  
+-- LIMIT 3 ==> 3 records 
+ * pages = 8 / 3
+ * page1:3 records , 
+ * page2: 3 records , 
+ * page3: 2 records  
+
+-- Example : ASC 
 -- LIMIT 3 : 3 Pages 
 -- PAGE 1 OFFSET 0: 1001
 -- PAGE 1 OFFSET 1: 1002
