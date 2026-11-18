@@ -1,3 +1,7 @@
+-- STRING FUnctions : upper(), lower() , length(), trim()
+-- replace() 
+-- || (join text)
+-- POSITION 
 -- Type conversion (CAST)
 SELECT CAST('42' AS INTEGER);        -- 42
 SELECT CAST(7 AS NUMERIC) / 2;       -- 3.5000000000000000
@@ -38,12 +42,16 @@ SELECT POSITION('@' IN 'raj@mail.com');        -- 4
 SELECT POSITION('z' IN 'raj@mail.com');        -- 0  (not found)
 SELECT email, POSITION('@' IN email) FROM customers;   -- customer 7 gives NULL
 
+-- SELECT SUBSTRING('TEST1234' FROM 5 FOR 8);
+
 --- ########## Numeric functions -
 -- ROUND
 SELECT ROUND(3.14159, 2);            -- 3.14
 SELECT ROUND(7.456, 1);              -- 7.5
 SELECT ROUND(7.6);                   -- 8
 SELECT ROUND(price * 1.18, 2) FROM products;
+select round(7.4);
+select round(7.6);
 
 -- CEIL / FLOOR
 SELECT CEIL(4.2), FLOOR(4.8);       -- 5, 4
@@ -63,6 +71,13 @@ SELECT 12 + 3, 12 - 3, 12 * 3, 12 / 3;   -- 15, 9, 36, 4
 SELECT 12 / 5;                            -- 2        (integer division)
 SELECT 12 / 5.0;                          -- 2.4000000000000000
 SELECT quantity * unit_price FROM order_items;
+
+-- NUMERIC FUnction 
+-- round(), ciel(), floor()
+-- ABS()
+-- % , MOD() --> remainder 
+-- - , + , *  / 
+
 
 --- ########## Date functions
 -- CURRENT_DATE
@@ -101,7 +116,12 @@ SELECT UPPER(name)                                  AS name_upper,
        CURRENT_DATE - signup_date                   AS days_since_signup
 FROM customers;
 
-
+-- CURRENT_DATE
+-- EXTRACT() 
+-- DATE_TRUNC() 
+-- date - date
+-- date + <integeer>
+-- to_char() : from date to string
 
 --- ############## GUIDED PRACTISE ####################
 -- Step 1: functions need no table
