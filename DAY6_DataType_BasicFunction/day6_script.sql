@@ -45,6 +45,12 @@ SELECT email, POSITION('@' IN email) FROM customers;   -- customer 7 gives NULL
 -- SELECT SUBSTRING('TEST1234' FROM 5 FOR 8);
 
 --- ########## Numeric functions -
+-- NUMERIC FUnction 
+-- round(), ciel(), floor()
+-- ABS()
+-- % , MOD() --> remainder 
+-- - , + , *  / 
+
 -- ROUND
 SELECT ROUND(3.14159, 2);            -- 3.14
 SELECT ROUND(7.456, 1);              -- 7.5
@@ -72,15 +78,15 @@ SELECT 12 / 5;                            -- 2        (integer division)
 SELECT 12 / 5.0;                          -- 2.4000000000000000
 SELECT quantity * unit_price FROM order_items;
 
--- NUMERIC FUnction 
--- round(), ciel(), floor()
--- ABS()
--- % , MOD() --> remainder 
--- - , + , *  / 
-
-
 --- ########## Date functions
 -- CURRENT_DATE
+-- CURRENT_DATE
+-- EXTRACT() 
+-- DATE_TRUNC() 
+-- date - date
+-- date + <integeer>
+-- to_char() : from date to string
+
 SELECT CURRENT_DATE;                              -- today's date
 SELECT name FROM customers WHERE signup_date < CURRENT_DATE;
 
@@ -116,12 +122,7 @@ SELECT UPPER(name)                                  AS name_upper,
        CURRENT_DATE - signup_date                   AS days_since_signup
 FROM customers;
 
--- CURRENT_DATE
--- EXTRACT() 
--- DATE_TRUNC() 
--- date - date
--- date + <integeer>
--- to_char() : from date to string
+
 
 --- ############## GUIDED PRACTISE ####################
 -- Step 1: functions need no table
