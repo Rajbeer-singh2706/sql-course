@@ -73,6 +73,8 @@ WHERE email IS NOT NULL
 ORDER by city
 LIMIT 5;
 
+select * from customers
+where city NOT in ('Delhi', NULL)
 
 
 
