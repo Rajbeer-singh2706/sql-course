@@ -141,6 +141,8 @@ SELECT
 FROM customers;
 
 --Step 4: arithmetic on columns
+## price_with_gst = price + 18%
+## 100% + 18% => 118% => 118/100 => 1.18
 SELECT 
   product_id, 
   name, 
